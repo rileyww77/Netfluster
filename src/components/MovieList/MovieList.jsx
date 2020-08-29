@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux'
+import './MovieList.css'
 
 class MovieList extends Component {
 
@@ -24,7 +25,7 @@ class MovieList extends Component {
             <div>
                 {this.props.reduxState.moviesReducer.map((movie) => {
                     return (
-                        <div key={movie.id}>
+                        <div key={movie.id} className="card">
                             <p>{movie.title}</p>
                             <img src={movie.poster} alt='movie poster' onClick={() => this.handleMovieDetail(movie.id)}></img>
                         </div>
