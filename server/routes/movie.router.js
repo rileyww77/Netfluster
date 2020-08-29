@@ -16,6 +16,22 @@ router.get('/', (req, res) => {
     });
 });
 
+//get one movie
+router.get('/:id', (req, res) => {
+  let id = req.params.id
+  console.log(id)
+  const queryText = `SELECT "movies".description FROM "movies" WHERE "movies".id = $1;`
+  pool.query(queryText, [id])
+    .then((result) => {
+      console.log(result.rows)
+      res.send(result.rows);
+    })
+    .catch((error) => {
+      console.log(`Error on movie get query ${error}`);
+      res.sendStatus(500);
+    });
+});
+
 
 router.post('/', (req, res) => {
   console.log(req.body);

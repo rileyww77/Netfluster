@@ -3,12 +3,20 @@ import { connect } from 'react-redux'
 
 class MovieList extends Component {
 
-    componentDidMount(){
+
+    componentDidMount() {
         this.getMovies()
     }
 
     getMovies = () => {
-        this.props.dispatch({ type: 'FETCH_MOVIES'})
+        this.props.dispatch({ type: 'FETCH_MOVIES' })
+    }
+
+    handleMovieDetail = (id) => {
+        let movieToSend = id
+        console.log(movieToSend)
+        this.props.dispatch ({ type: 'SET_DETAIL', payload: movieToSend})
+        this.props.history.push(`/details`)
     }
 
     render() {
@@ -16,10 +24,10 @@ class MovieList extends Component {
             <div>
                 {this.props.reduxState.moviesReducer.map((movie) => {
                     return (
-                        <>
-                        <p key={movie.id}>{movie.title}</p>
-                        <img src={movie.poster} alt='movie poster'></img>
-                        </>
+                        <div key={movie.id}>
+                            <p>{movie.title}</p>
+                            <img src={movie.poster} alt='movie poster' onClick={() => this.handleMovieDetail(movie.id)}></img>
+                        </div>
                     )
                 })}
             </div>

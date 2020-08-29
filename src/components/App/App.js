@@ -21,7 +21,6 @@ class App extends Component {
           <Route exact path="/details" component={Details} />
           <Route exact path="/addmovie" component={AddMovie} />
         </Router>
-        <p>Empty Page</p>
       </div>
     );
   }
