@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux'
 
 class MovieList extends Component {
     render() {
@@ -10,4 +11,8 @@ class MovieList extends Component {
     }
 }
 
-export default MovieList;
+const mapReduxStateToProps = reduxState => ({
+    reduxState
+});
+
+export default connect(mapReduxStateToProps)(MovieList);
