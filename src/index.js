@@ -16,10 +16,24 @@ import axios from 'axios';
 function* rootSaga() {
     yield takeEvery('FETCH_MOVIES', fetchMovies);
     yield takeEvery('SET_DETAIL', setDetail);
+    yield takeEvery('FETCH_GENRES', fetchGenres);
+    yield takeEvery('POST_MOVIE', postMovie)
 }
 
 // Create sagaMiddleware
 const sagaMiddleware = createSagaMiddleware();
+
+function* postMovie(action){
+    try{
+        console.log(action.payload);
+        let response = yield axios.post('/api/movie', action.payload)
+        console.log(response.data)
+        yield put ({type: 'FETCH_MOVIES'})
+    } catch (error) {
+        console.log('error setting movie', error)
+    }
+}
+
 
 //used to fetch one movie from the server
 function* setDetail(action) {
@@ -43,6 +57,16 @@ function* fetchMovies() {
     }
 }
 
+function* fetchGenres() {
+    try {
+        let response = yield axios.get('/api/genre');
+        console.log(response.data);
+        yield put({ type: 'SET_GENRES', payload: response.data });
+    } catch (error) {
+        console.log('error in getting genres(index)', error)
+    }
+}
+
 // Used to store movies returned from the server
 const moviesReducer = (state = [], action) => {
     switch (action.type) {
@@ -63,6 +87,7 @@ const genresReducer = (state = [], action) => {
     }
 }
 
+//store the details for one movie
 const movieDetailReducer = (state = [], action) => {
     if (action.type === 'PUT_DETAIL') {
         return action.payload

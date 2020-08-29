@@ -1,82 +1,83 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux'
 
 class AddMovie extends Component {
 
-    state={
+    state = {
         title: '',
         poster: '',
         description: '',
-        genre_id: 0
+        genreId: 0
     }
 
     handleGenre = (event) => {
-        switch (event.target.value){
+        switch (event.target.value) {
             case 'adventure':
                 this.setState({
-                    genre_id: 1
+                    genreId: 1
                 })
                 break;
             case 'animated':
                 this.setState({
-                    genre_id: 2
+                    genreId: 2
                 })
                 break;
-                case 'biographical':
+            case 'biographical':
                 this.setState({
-                    genre_id: 3
+                    genreId: 3
                 })
                 break;
-                case 'comedy':
+            case 'comedy':
                 this.setState({
-                    genre_id: 4
+                    genreId: 4
                 })
                 break;
-                case 'disaster':
+            case 'disaster':
                 this.setState({
-                    genre_id: 5
+                    genreId: 5
                 })
                 break;
-                case 'drama':
+            case 'drama':
                 this.setState({
-                    genre_id: 6
+                    genreId: 6
                 })
                 break;
-                case 'epic':
+            case 'epic':
                 this.setState({
-                    genre_id: 7
+                    genreId: 7
                 })
                 break;
-                case 'fantasy':
+            case 'fantasy':
                 this.setState({
-                    genre_id: 8
+                    genreId: 8
                 })
                 break;
-                case 'musical':
+            case 'musical':
                 this.setState({
-                    genre_id: 9
+                    genreId: 9
                 })
                 break;
-                case 'romantic':
+            case 'romantic':
                 this.setState({
-                    genre_id: 10
+                    genreId: 10
                 })
                 break;
-                case 'science_fiction':
+            case 'science_fiction':
                 this.setState({
-                    genre_id: 11
+                    genreId: 11
                 })
                 break;
-                case 'space-opera':
+            case 'space-opera':
                 this.setState({
-                    genre_id: 12
+                    genreId: 12
                 })
                 break;
-                case 'superhero':
+            case 'superhero':
                 this.setState({
-                    genre_id: 13
+                    genreId: 13
                 })
                 break;
-                default:
+            default:
         }
     }
 
@@ -85,42 +86,64 @@ class AddMovie extends Component {
     }
 
     handleSave = () => {
-
+        this.props.dispatch({ type: 'POST_MOVIE', payload: this.state})
     }
 
+    handleTitleChange = (event) => {
+        this.setState({
+            title: event.target.value
+        })
+    }
+
+    handlePosterChange = (event) => {
+        this.setState({
+            poster: event.target.value
+        })
+    }
+
+    handleChangeDescription = (event) => {
+        this.setState({
+            description: event.target.value
+        })
+    }
 
     render() {
         return (
             <div>
                 <br />
-                <input placeholder="Movie Title"></input>
+                <input placeholder="Movie Title" onChange={this.handleTitleChange}></input>
                 <br />
                 <br />
-                <input placeholder="Poster URL"></input>
+                <input placeholder="Poster URL" onChange={this.handlePosterChange}></input>
                 <br />
                 <br />
-                <textarea id="description" name="description" placeholder="description" rows="4" cols="50" onChange = {(event) => this.handleChangeFor(event)}></textarea>
+                <textarea id="description" name="description" placeholder="Description" rows="4" cols="50"
+                    onChange={(event) => this.handleChangeDescription(event)}></textarea>
                 <br />
                 <select name="genres" onChange={this.handleGenre}>
-                                <option value='adventure'>Adventure</option>
-                                <option value='animated'>Animated</option>
-                                <option value='biographical'>Biographical</option>
-                                <option value='comedy'>Comedy</option>
-                                <option value='disaster'>Disaster</option>
-                                <option value='drama'>Drama</option>
-                                <option value='epic'>Epic</option>
-                                <option value='fantasy'>Fantasy</option>
-                                <option value='musical'>Musical</option>
-                                <option value='romantic'>Romantic</option>
-                                <option value='science_fiction'>Science Fiction</option>
-                                <option value='space-opera'>Space-Opera</option>
-                                <option value='superhero'>Superhero</option>
-                            </select>
-                            <button onClick={this.handleCancel}>Cancel</button>
-                            <button onClick={this.handleSave}>Save</button>
+                    <option value='adventure'>Adventure</option>
+                    <option value='animated'>Animated</option>
+                    <option value='biographical'>Biographical</option>
+                    <option value='comedy'>Comedy</option>
+                    <option value='disaster'>Disaster</option>
+                    <option value='drama'>Drama</option>
+                    <option value='epic'>Epic</option>
+                    <option value='fantasy'>Fantasy</option>
+                    <option value='musical'>Musical</option>
+                    <option value='romantic'>Romantic</option>
+                    <option value='science_fiction'>Science Fiction</option>
+                    <option value='space-opera'>Space-Opera</option>
+                    <option value='superhero'>Superhero</option>
+                </select>
+                <button onClick={this.handleCancel}>Cancel</button>
+                <button onClick={this.handleSave}>Save</button>
             </div>
         );
     }
 }
 
-export default AddMovie;
+const mapReduxStateToProps = reduxState => ({
+    reduxState
+});
+
+export default connect(mapReduxStateToProps)(AddMovie);
