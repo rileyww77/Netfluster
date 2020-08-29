@@ -20,14 +20,19 @@ router.get('/', (req, res) => {
 router.get('/:id', (req, res) => {
   let id = req.params.id
   console.log(id)
-  const queryText = `SELECT "movies".description FROM "movies" WHERE "movies".id = $1;`
+  const queryText = `
+    SELECT * FROM "movies"
+    JOIN "movie_genres" ON "movie_genres".movie_id = "movies".id
+    JOIN "genres" ON "genres".id = "movie_genres".genre_id
+    WHERE "movies".id = $1;
+    `
   pool.query(queryText, [id])
     .then((result) => {
       console.log(result.rows)
       res.send(result.rows);
     })
     .catch((error) => {
-      console.log(`Error on movie get query ${error}`);
+      console.log(`Error on single movie get query ${error}`);
       res.sendStatus(500);
     });
 });
@@ -43,13 +48,13 @@ router.post('/', (req, res) => {
 
   // FIRST QUERY MAKES MOVIE
   pool.query(insertMovieQuery, [req.body.title, req.body.poster, req.body.description])
-  .then(result => {
-    console.log('New Movie Id:', result.rows[0].id); //ID IS HERE!
-    
-    const createdMovieId = result.rows[0].id
+    .then(result => {
+      console.log('New Movie Id:', result.rows[0].id); //ID IS HERE!
 
-    // Depending on how you make your junction table, this insert COULD change.
-    const insertMovieGenreQuery = `
+      const createdMovieId = result.rows[0].id
+
+      // Depending on how you make your junction table, this insert COULD change.
+      const insertMovieGenreQuery = `
       INSERT INTO "movie_genres" ("movie_id", "genre_id")
       VALUES  ($1, $2);
       `
@@ -63,11 +68,11 @@ router.post('/', (req, res) => {
         res.sendStatus(500)
       })
 
-// Catch for first query
-  }).catch(err => {
-    console.log(err);
-    res.sendStatus(500)
-  })
+      // Catch for first query
+    }).catch(err => {
+      console.log(err);
+      res.sendStatus(500)
+    })
 })
 
 module.exports = router;
