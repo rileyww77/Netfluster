@@ -9,8 +9,10 @@ class App extends Component {
   // Renders the entire app on the DOM
   render() {
     return (
+      <>
       <div className="App">
-        <h1>Movies!</h1>
+        <h1>Netfluster</h1>
+        <h2>The only place where you can search for movies, but not watch them!</h2>
         <Router>
           <nav>
             <Link to='/'>Home</Link> |
@@ -22,6 +24,8 @@ class App extends Component {
           <Route exact path="/addmovie" component={AddMovie} />
         </Router>
       </div>
+      <footer>2020 Netfluster Inc.</footer>
+      </>
     );
   }
 }

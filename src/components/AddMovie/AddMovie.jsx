@@ -135,8 +135,8 @@ class AddMovie extends Component {
                     <option value='space-opera'>Space-Opera</option>
                     <option value='superhero'>Superhero</option>
                 </select>
-                <button onClick={this.handleCancel}>Cancel</button>
                 <button onClick={this.handleSave}>Save</button>
+                <button onClick={this.handleCancel}>Cancel</button>
             </div>
         );
     }
